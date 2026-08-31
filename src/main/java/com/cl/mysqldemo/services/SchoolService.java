@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SchoolService {
@@ -32,4 +33,12 @@ public class SchoolService {
     public List<School> getAllSchools(){
         return schoolRepository.findAll();
     }
+
+    public School getById(Long id) {
+        Optional<School> school = schoolRepository.findById(id);
+        if (school.isPresent() && school.get().getIsActive()) {
+            return school.get();
+        }
+            return new School();
+        }
 }
