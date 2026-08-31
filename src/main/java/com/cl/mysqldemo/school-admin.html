@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>School Registry</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EEF0EA;
+    --paper-raised:#F7F8F4;
+    --ink:#1F2A22;
+    --ink-soft:#5B6A5D;
+    --rule:#C7CDBE;
+    --brass:#9C7A3C;
+    --brass-deep:#7C5F2D;
+    --teal:#33564A;
+    --teal-deep:#233B33;
+    --danger:#8C3B2E;
+    --danger-bg:#F1E1DC;
+    --ok:#33564A;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    min-height:100vh;
+    padding:48px 24px 80px;
+  }
+  .wrap{max-width:1040px;margin:0 auto;}
+
+  header.hero{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:24px;
+    border-bottom:2px solid var(--ink);
+    padding-bottom:22px;
+    margin-bottom:36px;
+    flex-wrap:wrap;
+  }
+  header.hero h1{
+    font-family:'Source Serif 4', serif;
+    font-weight:700;
+    font-size:clamp(32px,4vw,44px);
+    line-height:1.05;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  header.hero p{
+    margin:8px 0 0;
+    color:var(--ink-soft);
+    font-size:15px;
+    max-width:46ch;
+  }
+  .count-block{
+    text-align:right;
+    font-family:'Source Serif 4', serif;
+  }
+  .count-block .num{
+    font-size:40px;
+    font-weight:700;
+    color:var(--teal-deep);
+    display:block;
+    line-height:1;
+  }
+  .count-block .label{
+    font-size:12.5px;
+    color:var(--ink-soft);
+    font-family:'IBM Plex Sans',sans-serif;
+  }
+
+  .connection{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:36px;
+    font-size:13.5px;
+    color:var(--ink-soft);
+  }
+  .connection input{
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:13.5px;
+    padding:7px 10px;
+    border:1px solid var(--rule);
+    border-radius:3px;
+    background:var(--paper-raised);
+    color:var(--ink);
+    width:260px;
+  }
+  .connection input:focus{outline:2px solid var(--brass); outline-offset:1px;}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--rule); flex-shrink:0;}
+  .dot.up{background:var(--ok);}
+  .dot.down{background:var(--danger);}
+
+  .grid{
+    display:grid;
+    grid-template-columns:340px 1fr;
+    gap:32px;
+    align-items:start;
+  }
+  @media (max-width:800px){
+    .grid{grid-template-columns:1fr;}
+  }
+
+  .panel{
+    background:var(--paper-raised);
+    border:1px solid var(--rule);
+    border-radius:4px;
+    padding:24px;
+  }
+  .panel + .panel{margin-top:24px;}
+  .panel h2{
+    font-family:'Source Serif 4', serif;
+    font-size:19px;
+    font-weight:600;
+    margin:0 0 4px;
+  }
+  .panel .sub{
+    font-size:13px;
+    color:var(--ink-soft);
+    margin:0 0 18px;
+  }
+
+  label{
+    display:block;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    margin-bottom:6px;
+    margin-top:14px;
+  }
+  label:first-of-type{margin-top:0;}
+  input[type=text], input[type=number]{
+    width:100%;
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:14.5px;
+    padding:9px 11px;
+    border:1px solid var(--rule);
+    border-radius:3px;
+    background:#fff;
+    color:var(--ink);
+  }
+  input:focus{outline:2px solid var(--brass); outline-offset:1px;}
+
+  .btn{
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:14px;
+    font-weight:500;
+    padding:10px 16px;
+    border-radius:3px;
+    border:1px solid transparent;
+    cursor:pointer;
+    transition:background .15s ease, transform .05s ease;
+  }
+  .btn:active{transform:translateY(1px);}
+  .btn-primary{
+    background:var(--teal-deep);
+    color:#F4F5F0;
+    margin-top:18px;
+    width:100%;
+  }
+  .btn-primary:hover{background:var(--teal);}
+  .btn-secondary{
+    background:transparent;
+    border:1px solid var(--ink);
+    color:var(--ink);
+    width:100%;
+    margin-top:18px;
+  }
+  .btn-secondary:hover{background:var(--ink); color:var(--paper-raised);}
+  .btn-danger{
+    background:var(--danger-bg);
+    color:var(--danger);
+    border:1px solid transparent;
+  }
+  .btn-danger:hover{background:var(--danger); color:#fff;}
+  .btn-small{
+    font-size:12.5px;
+    padding:5px 10px;
+  }
+
+  .msg{
+    margin-top:12px;
+    font-size:13px;
+    padding:9px 11px;
+    border-radius:3px;
+    display:none;
+  }
+  .msg.show{display:block;}
+  .msg.ok{background:#E4EAE1; color:var(--ok);}
+  .msg.err{background:var(--danger-bg); color:var(--danger);}
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:14px;
+  }
+  thead th{
+    text-align:left;
+    font-weight:500;
+    color:var(--ink-soft);
+    font-size:12.5px;
+    padding:0 10px 10px;
+    border-bottom:1px solid var(--ink);
+  }
+  tbody td{
+    padding:13px 10px;
+    border-bottom:1px solid var(--rule);
+    vertical-align:middle;
+  }
+  tbody tr:hover{background:rgba(0,0,0,0.02);}
+  td.id-col{color:var(--ink-soft); font-variant-numeric:tabular-nums; width:44px;}
+  td.name-col{font-weight:600;}
+  td.actions{text-align:right; white-space:nowrap;}
+  td.actions .btn{margin-left:6px;}
+  .badge{
+    display:inline-block;
+    font-size:11.5px;
+    padding:2px 8px;
+    border-radius:20px;
+    background:#E4EAE1;
+    color:var(--ok);
+  }
+  .badge.inactive{background:var(--danger-bg); color:var(--danger);}
+
+  .empty{
+    padding:40px 10px;
+    text-align:center;
+    color:var(--ink-soft);
+    font-size:14px;
+  }
+
+  .table-toolbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:14px;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .table-toolbar h2{margin:0;}
+  .table-toolbar input{width:200px;}
+
+  .lookup-row{display:flex; gap:8px; margin-top:14px;}
+  .lookup-row input{flex:1;}
+  .lookup-row .btn{margin-top:0; width:auto; white-space:nowrap;}
+
+  .lookup-result{
+    margin-top:14px;
+    border:1px dashed var(--rule);
+    border-radius:3px;
+    padding:12px;
+    font-size:13.5px;
+    display:none;
+  }
+  .lookup-result.show{display:block;}
+  .lookup-result dl{margin:0; display:grid; grid-template-columns:auto 1fr; gap:4px 12px;}
+  .lookup-result dt{color:var(--ink-soft);}
+  .lookup-result dd{margin:0;}
+
+  ::selection{background:var(--brass); color:#fff;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div>
+      <h1>School Registry</h1>
+      <p>Add, look up, and maintain the schools stored by your local API.</p>
+    </div>
+    <div class="count-block">
+      <span class="num" id="schoolCount">–</span>
+      <span class="label">schools on record</span>
+    </div>
+  </header>
+
+  <div class="connection">
+    <span class="dot" id="connDot"></span>
+    <span id="connLabel">Checking connection…</span>
+    <input type="text" id="baseUrl" value="http://localhost:8080" spellcheck="false">
+  </div>
+
+  <div class="grid">
+    <!-- LEFT: forms -->
+    <div>
+      <div class="panel">
+        <h2>Add a school</h2>
+        <p class="sub">Creates a new record and returns its id.</p>
+        <label for="addName">Name</label>
+        <input type="text" id="addName" placeholder="e.g. IM">
+        <label for="addLocation">Location</label>
+        <input type="text" id="addLocation" placeholder="e.g. Muscat">
+        <button class="btn btn-primary" id="addBtn">Add school</button>
+        <div class="msg" id="addMsg"></div>
+      </div>
+
+      <div class="panel">
+        <h2>Look up by id</h2>
+        <p class="sub">Fetch a single school's current record.</p>
+        <div class="lookup-row">
+          <input type="number" id="lookupId" placeholder="id">
+          <button class="btn btn-secondary" id="lookupBtn" style="margin-top:0;">Find</button>
+        </div>
+        <div class="lookup-result" id="lookupResult"></div>
+        <div class="msg" id="lookupMsg"></div>
+      </div>
+    </div>
+
+    <!-- RIGHT: table -->
+    <div class="panel">
+      <div class="table-toolbar">
+        <h2>All schools</h2>
+        <input type="text" id="filterInput" placeholder="Filter by name or location">
+      </div>
+      <div id="tableHost">
+        <div class="empty">Loading…</div>
+      </div>
+      <div class="msg" id="tableMsg"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  const $ = (id) => document.getElementById(id);
+  let schools = [];
+  let editingId = null; // when set, the Add form behaves as an Update form
+
+  function baseUrl(){
+    return $('baseUrl').value.replace(/\/$/, '');
+  }
+
+  function showMsg(el, text, kind){
+    el.textContent = text;
+    el.className = 'msg show ' + kind;
+    if(kind === 'ok'){
+      setTimeout(() => { el.className = 'msg'; }, 3500);
+    }
+  }
+
+  function fmtDate(iso){
+    if(!iso) return '—';
+    const d = new Date(iso);
+    return d.toLocaleDateString(undefined, {year:'numeric', month:'short', day:'numeric'});
+  }
+
+  async function checkConnection(){
+    const dot = $('connDot');
+    const label = $('connLabel');
+    try{
+      const res = await fetch(baseUrl() + '/school/getAll');
+      if(!res.ok) throw new Error();
+      dot.className = 'dot up';
+      label.textContent = 'Connected';
+    }catch(e){
+      dot.className = 'dot down';
+      label.textContent = 'Cannot reach API';
+    }
+  }
+
+  async function loadAll(){
+    const host = $('tableHost');
+    try{
+      const res = await fetch(baseUrl() + '/school/getAll');
+      if(!res.ok) throw new Error('Request failed: ' + res.status);
+      schools = await res.json();
+      $('connDot').className = 'dot up';
+      $('connLabel').textContent = 'Connected';
+      renderTable();
+    }catch(e){
+      $('connDot').className = 'dot down';
+      $('connLabel').textContent = 'Cannot reach API';
+      host.innerHTML = '<div class="empty">Could not load schools. Check the base URL above and that the server is running.</div>';
+      $('schoolCount').textContent = '–';
+    }
+  }
+
+  function renderTable(){
+    const host = $('tableHost');
+    const filter = $('filterInput').value.trim().toLowerCase();
+    const rows = schools.filter(s =>
+      !filter || (s.name||'').toLowerCase().includes(filter) || (s.location||'').toLowerCase().includes(filter)
+    );
+
+    $('schoolCount').textContent = schools.length;
+
+    if(rows.length === 0){
+      host.innerHTML = '<div class="empty">' + (schools.length === 0 ? 'No schools yet. Add the first one on the left.' : 'No schools match that filter.') + '</div>';
+      return;
+    }
+
+    let html = '<table><thead><tr>' +
+      '<th>Id</th><th>Name</th><th>Location</th><th>Status</th><th>Added</th><th></th>' +
+      '</tr></thead><tbody>';
+
+    rows.forEach(s => {
+      html += '<tr data-id="' + s.id + '">' +
+        '<td class="id-col">' + s.id + '</td>' +
+        '<td class="name-col">' + escapeHtml(s.name) + '</td>' +
+        '<td>' + escapeHtml(s.location) + '</td>' +
+        '<td><span class="badge ' + (s.isActive ? '' : 'inactive') + '">' + (s.isActive ? 'Active' : 'Inactive') + '</span></td>' +
+        '<td>' + fmtDate(s.createdDate) + '</td>' +
+        '<td class="actions">' +
+          '<button class="btn btn-secondary btn-small" data-action="edit">Edit</button>' +
+          '<button class="btn btn-danger btn-small" data-action="delete">Delete</button>' +
+        '</td>' +
+      '</tr>';
+    });
+    html += '</tbody></table>';
+    host.innerHTML = html;
+
+    host.querySelectorAll('button[data-action="edit"]').forEach(btn => {
+      btn.addEventListener('click', () => startEdit(Number(btn.closest('tr').dataset.id)));
+    });
+    host.querySelectorAll('button[data-action="delete"]').forEach(btn => {
+      btn.addEventListener('click', () => deleteSchool(Number(btn.closest('tr').dataset.id)));
+    });
+  }
+
+  function escapeHtml(str){
+    if(str === null || str === undefined) return '';
+    return String(str).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  function startEdit(id){
+    const s = schools.find(x => x.id === id);
+    if(!s) return;
+    editingId = id;
+    $('addName').value = s.name || '';
+    $('addLocation').value = s.location || '';
+    $('addBtn').textContent = 'Save changes to #' + id;
+    $('addBtn').dataset.mode = 'update';
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  function resetAddForm(){
+    editingId = null;
+    $('addName').value = '';
+    $('addLocation').value = '';
+    $('addBtn').textContent = 'Add school';
+    $('addBtn').dataset.mode = 'add';
+  }
+
+  async function submitAddOrUpdate(){
+    const name = $('addName').value.trim();
+    const location = $('addLocation').value.trim();
+    const msgEl = $('addMsg');
+
+    if(!name || !location){
+      showMsg(msgEl, 'Enter both a name and a location.', 'err');
+      return;
+    }
+
+    const isUpdate = editingId !== null;
+    const url = isUpdate
+      ? baseUrl() + '/school/update?id=' + editingId + '&name=' + encodeURIComponent(name) + '&location=' + encodeURIComponent(location)
+      : baseUrl() + '/school/add?schoolName=' + encodeURIComponent(name) + '&location=' + encodeURIComponent(location);
+
+    try{
+      const res = await fetch(url, { method: isUpdate ? 'PUT' : 'POST' });
+      if(!res.ok) throw new Error('Request failed: ' + res.status);
+      await res.json();
+      showMsg(msgEl, isUpdate ? 'School #' + editingId + ' updated.' : 'School added.', 'ok');
+      resetAddForm();
+      loadAll();
+    }catch(e){
+      showMsg(msgEl, 'Could not save. Check the API is running and try again.', 'err');
+    }
+  }
+
+  async function deleteSchool(id){
+    if(!confirm('Delete school #' + id + '? This cannot be undone.')) return;
+    const msgEl = $('tableMsg');
+    try{
+      const res = await fetch(baseUrl() + '/school/deleteById?id=' + id, { method: 'DELETE' });
+      if(!res.ok) throw new Error('Request failed: ' + res.status);
+      const ok = await res.json();
+      if(ok === true){
+        showMsg(msgEl, 'School #' + id + ' deleted.', 'ok');
+        if(editingId === id) resetAddForm();
+        loadAll();
+      }else{
+        showMsg(msgEl, 'Delete failed for #' + id + '.', 'err');
+      }
+    }catch(e){
+      showMsg(msgEl, 'Could not reach the API to delete #' + id + '.', 'err');
+    }
+  }
+
+  async function lookupById(){
+    const id = $('lookupId').value.trim();
+    const resultEl = $('lookupResult');
+    const msgEl = $('lookupMsg');
+    resultEl.className = 'lookup-result';
+    if(!id){
+      showMsg(msgEl, 'Enter an id to look up.', 'err');
+      return;
+    }
+    try{
+      const res = await fetch(baseUrl() + '/school/getById?id=' + encodeURIComponent(id));
+      if(!res.ok) throw new Error('Request failed: ' + res.status);
+      const s = await res.json();
+      if(s.id === null || s.id === undefined){
+        msgEl.className = 'msg';
+        resultEl.className = 'lookup-result';
+        showMsg(msgEl, 'No school found with id ' + id + '.', 'err');
+        return;
+      }
+      msgEl.className = 'msg';
+      resultEl.innerHTML =
+        '<dl>' +
+          '<dt>Id</dt><dd>' + s.id + '</dd>' +
+          '<dt>Name</dt><dd>' + escapeHtml(s.name) + '</dd>' +
+          '<dt>Location</dt><dd>' + escapeHtml(s.location) + '</dd>' +
+          '<dt>Status</dt><dd>' + (s.isActive ? 'Active' : 'Inactive') + '</dd>' +
+          '<dt>Added</dt><dd>' + fmtDate(s.createdDate) + '</dd>' +
+          '<dt>Updated</dt><dd>' + fmtDate(s.updatedDate) + '</dd>' +
+        '</dl>';
+      resultEl.className = 'lookup-result show';
+    }catch(e){
+      showMsg(msgEl, 'Could not reach the API.', 'err');
+    }
+  }
+
+  $('addBtn').addEventListener('click', submitAddOrUpdate);
+  $('lookupBtn').addEventListener('click', lookupById);
+  $('lookupId').addEventListener('keydown', e => { if(e.key === 'Enter') lookupById(); });
+  $('filterInput').addEventListener('input', renderTable);
+  $('baseUrl').addEventListener('change', () => { checkConnection(); loadAll(); });
+
+  loadAll();
+})();
+</script>
+</body>
+</html>
