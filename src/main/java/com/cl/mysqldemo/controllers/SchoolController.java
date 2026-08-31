@@ -20,18 +20,30 @@ public class SchoolController {
     }
 
     @PostMapping("add")
-    public Long addSchool(@RequestParam  String schoolName,@RequestParam String location){
-        return schoolService.createSchool(schoolName,location);
+    public Long addSchool(@RequestParam String schoolName, @RequestParam String location) {
+        return schoolService.createSchool(schoolName, location);
     }
 
     @GetMapping("getAll")
-    public List<School> getAllSchools(){
+    public List<School> getAllSchools() {
         return schoolService.getAllSchools();
     }
 
 
     @GetMapping("getById")
-    public School getById(@RequestParam Long id){
+    public School getById(@RequestParam Long id) {
         return schoolService.getById(id);
+    }
+
+
+    @PutMapping("update")
+    public School updateSchool(@RequestParam Long id, @RequestParam String name, @RequestParam String location) {
+        return schoolService.updateSchool(id, name, location);
+    }
+
+
+    @DeleteMapping
+    public Boolean deleteSchool(@RequestParam Long id){
+        return schoolService.deletById(id);
     }
 }
