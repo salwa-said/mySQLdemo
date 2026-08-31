@@ -55,4 +55,17 @@ public class SchoolService {
         return schoolToUpdate;
     }
 
+
+    public Boolean deletById(Long id ){
+        School schoolToUpdate = schoolRepository.getById(id);
+        if (schoolToUpdate== null){
+            return false;
+        }
+        schoolToUpdate.setIsActive(false);
+        schoolToUpdate.setUpdatedDate(new Date());
+        schoolRepository.save(schoolToUpdate);
+        return true;
+    }
+
+
 }
