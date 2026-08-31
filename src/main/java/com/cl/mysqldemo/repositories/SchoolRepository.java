@@ -13,6 +13,6 @@ public interface SchoolRepository extends JpaRepository<School, Long>{
     @Query("SELECT s FROM School s WHERE s.isActive=true")
     List<School>getAllSchool();
 
-    @Query("SELECT s FROM School s WHERE s.isActive=true AND s.id= :abc")
-    School getById(@Param("abc") Long id);
+    @Query("SELECT s FROM School s WHERE s.isActive=true AND s.id= :id")
+    School getById(@Param("id") Long id);
 }
