@@ -28,4 +28,10 @@ public class SchoolController {
     public List<School> getAllSchools(){
         return schoolService.getAllSchools();
     }
+
+
+    @GetMapping("getById")
+    public School getById(@RequestParam Long id){
+        return schoolService.getById(id);
+    }
 }
