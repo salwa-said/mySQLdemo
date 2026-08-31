@@ -3,6 +3,7 @@ package com.cl.mysqldemo.services;
 import com.cl.mysqldemo.entities.School;
 import com.cl.mysqldemo.repositories.SchoolRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -31,7 +32,7 @@ public class SchoolService {
 
 
     public List<School> getAllSchools(){
-        return schoolRepository.findAll();
+        return schoolRepository.getAllSchool();
     }
 
     public School getById(Long id) {
@@ -39,6 +40,19 @@ public class SchoolService {
         if (school.isPresent() && school.get().getIsActive()) {
             return school.get();
         }
+        return new School();
+    }
+
+    public School updateSchool(Long id ,String name, String location){
+        School schoolToUpdate = schoolRepository.getById(id);
+        if (schoolToUpdate== null){
             return new School();
         }
+        schoolToUpdate.setCreatedDate(new Date());
+        schoolToUpdate.setName(name);
+        schoolToUpdate.setLocation(location);
+        schoolToUpdate = schoolRepository.save(schoolToUpdate);
+        return schoolToUpdate;
+    }
+
 }
