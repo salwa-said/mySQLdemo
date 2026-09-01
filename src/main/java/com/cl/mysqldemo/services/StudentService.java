@@ -21,9 +21,9 @@ public class StudentService {
     SchoolRepository schoolRepository;
 
     @Autowired
-    public StudentService(SchoolService schoolService, StudentReposiroty studentRepository, SchoolRepository schoolRepository) {
+    public StudentService(SchoolService schoolService, StudentReposiroty studentReposiroty, SchoolRepository schoolRepository) {
         this.schoolService = schoolService;
-        this.studentReposiroty = studentRepository;
+        this.studentReposiroty = studentReposiroty;
         this.schoolRepository = schoolRepository;
     }
 
@@ -39,7 +39,6 @@ public class StudentService {
         student.setGender(gender);
         student.setPhoneNumber(phoneNumber);
         student.setPhoneNumber(parentName);
-        student.setSchool(school);
         student.setIsActive(true);
         student.setCreatedDate(new Date());
         Student savedStudent = studentReposiroty.save(student);
