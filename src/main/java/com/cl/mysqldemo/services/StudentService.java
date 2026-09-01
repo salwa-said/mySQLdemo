@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StudentService {
@@ -33,12 +34,13 @@ public class StudentService {
         if(school == null || school.getIsActive() == false){
             return -1l;
         }
+
         Student student = new Student();
         student.setName(name);
         student.setMajor(major);
         student.setGender(gender);
         student.setPhoneNumber(phoneNumber);
-        student.setPhoneNumber(parentName);
+        student.setParentName(parentName);
         student.setIsActive(true);
         student.setCreatedDate(new Date());
         Student savedStudent = studentReposiroty.save(student);
@@ -50,4 +52,46 @@ public class StudentService {
 
         return savedStudent.getId();
     }
+    public List<Student> getAllStudents() {
+        return studentReposiroty.findAll();
+    }
+
+    public Student getById(Long id) {
+        Optional<Student> student = studentReposiroty.findById(id);
+        if (student.isPresent() && student.get().getIsActive()) {
+            return student.get();
+        }
+        return new Student();
+    }
+
+
+    public Student updateStudent(Long id, String name, String major, String gender,
+                                 String phoneNumber, String parentName, Long schoolId) {
+        Student studentToUpdate = studentReposiroty.getById(id);
+        if (studentToUpdate == null) {
+            return new Student();
+        }
+
+        studentToUpdate.setName(name);
+        studentToUpdate.setMajor(major);
+        studentToUpdate.setGender(gender);
+        studentToUpdate.setPhoneNumber(phoneNumber);
+        studentToUpdate.setParentName(parentName);
+        studentToUpdate.setUpdatedDate(new Date());
+
+
+        return studentReposiroty.save(studentToUpdate);
+    }
+
+    public Boolean deleteById(Long id) {
+        Student studentToUpdate = studentReposiroty.getById(id);
+        if (studentToUpdate == null) {
+            return false;
+        }
+        studentToUpdate.setIsActive(false);
+        studentToUpdate.setUpdatedDate(new Date());
+        studentReposiroty.save(studentToUpdate);
+        return true;
+    }
+
 }
