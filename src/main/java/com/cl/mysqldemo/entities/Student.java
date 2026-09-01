@@ -21,9 +21,6 @@ public class Student {
     private String phoneNumber;
     private String parentName;
 
-    @ManyToOne
-    private School school;
-
     private Boolean isActive;
     private Date createdDate;
     private Date updatedDate;
