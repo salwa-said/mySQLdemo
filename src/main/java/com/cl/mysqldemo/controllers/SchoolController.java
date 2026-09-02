@@ -44,7 +44,7 @@ public class SchoolController {
     }
 
 
-    @DeleteMapping
+    @DeleteMapping("deleteById")
     public Boolean deleteSchool(@RequestParam Long id){
         return schoolService.deletById(id);
     }
