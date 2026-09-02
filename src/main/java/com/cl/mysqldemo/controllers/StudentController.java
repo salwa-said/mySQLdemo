@@ -47,15 +47,13 @@ public class StudentController {
             @RequestParam Long id,
             @RequestParam String name,
             @RequestParam String major,
-            @RequestParam String gender,
-            @RequestParam String phoneNumber,
-            @RequestParam String parentName,
-            @RequestParam Long schoolId
+            @RequestParam String phoneNumber
+
     ) {
-        return StudentDTO.convrToDTO(studentService.updateStudent(id, name, major, gender, phoneNumber, parentName, schoolId));
+        return StudentDTO.convrToDTO(studentService.updateStudent(id, name, major, phoneNumber ));
     }
 
-    @DeleteMapping
+    @DeleteMapping("deleteById")
     public Boolean deleteStudent(@RequestParam Long id) {
         return studentService.deleteById(id);
     }
