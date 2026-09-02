@@ -76,7 +76,6 @@ public class StudentService {
         studentToUpdate.setPhoneNumber(phoneNumber);
         studentToUpdate.setUpdatedDate(new Date());
 
-
         return studentReposiroty.save(studentToUpdate);
     }
 
@@ -85,6 +84,7 @@ public class StudentService {
         if (studentToUpdate == null) {
             return false;
         }
+
         studentToUpdate.setIsActive(false);
         studentToUpdate.setUpdatedDate(new Date());
         studentReposiroty.save(studentToUpdate);
