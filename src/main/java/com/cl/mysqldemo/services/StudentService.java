@@ -53,7 +53,7 @@ public class StudentService {
         return savedStudent.getId();
     }
     public List<Student> getAllStudents() {
-        return studentReposiroty.findAll();
+        return studentReposiroty.getAllStudent();
     }
 
     public Student getById(Long id) {
@@ -65,8 +65,7 @@ public class StudentService {
     }
 
 
-    public Student updateStudent(Long id, String name, String major, String gender,
-                                 String phoneNumber, String parentName, Long schoolId) {
+    public Student updateStudent(Long id, String name, String major, String phoneNumber) {
         Student studentToUpdate = studentReposiroty.getById(id);
         if (studentToUpdate == null) {
             return new Student();
@@ -74,9 +73,7 @@ public class StudentService {
 
         studentToUpdate.setName(name);
         studentToUpdate.setMajor(major);
-        studentToUpdate.setGender(gender);
         studentToUpdate.setPhoneNumber(phoneNumber);
-        studentToUpdate.setParentName(parentName);
         studentToUpdate.setUpdatedDate(new Date());
 
 
