@@ -4,6 +4,7 @@ package com.cl.mysqldemo.controllers;
 import com.cl.mysqldemo.dto.SchoolDTO;
 import com.cl.mysqldemo.entities.School;
 import com.cl.mysqldemo.services.SchoolService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +22,7 @@ public class SchoolController {
     }
 
     @PostMapping("add")
-    public Long addSchool(@RequestBody SchoolDTO dto) {
+    public Long addSchool(@Valid @RequestBody SchoolDTO dto) {
         return schoolService.createSchool(dto.getSchoolName(), dto.getSchoolLocation());
     }
 
@@ -39,8 +40,9 @@ public class SchoolController {
 
 
     @PutMapping("update")
-    public SchoolDTO updateSchool(@RequestBody SchoolDTO dto) {
-        return SchoolDTO.convrToDTO(schoolService.updateSchool(dto.getSchoolId(),dto.getSchoolName(), dto.getSchoolLocation()));
+    public SchoolDTO updateSchool(@Valid @RequestBody SchoolDTO dto) {
+        return SchoolDTO.convrToDTO(schoolService.updateSchool(dto.getSchoolId(),
+                dto.getSchoolName(), dto.getSchoolLocation()));
     }
 
 
