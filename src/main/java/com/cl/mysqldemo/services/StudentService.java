@@ -1,6 +1,5 @@
 package com.cl.mysqldemo.services;
 
-
 import com.cl.mysqldemo.entities.School;
 import com.cl.mysqldemo.entities.Student;
 import com.cl.mysqldemo.repositories.SchoolRepository;
