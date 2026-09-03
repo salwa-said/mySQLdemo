@@ -43,10 +43,10 @@ public class SchoolService {
         return new School();
     }
 
-    public School updateSchool(Long id ,String name, String location){
+    public School updateSchool(Long id ,String name, String location) throws Exception{
         School schoolToUpdate = schoolRepository.getById(id);
         if (schoolToUpdate== null){
-            return new School();
+           throw new Exception("school not found by id");
         }
         schoolToUpdate.setCreatedDate(new Date());
         schoolToUpdate.setName(name);
