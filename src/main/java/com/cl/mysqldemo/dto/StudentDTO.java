@@ -4,18 +4,16 @@ import com.cl.mysqldemo.entities.Student;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
 @Getter
 @Setter
 @Builder
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class StudentDTO {
 
         @Positive
