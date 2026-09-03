@@ -40,7 +40,7 @@ public class SchoolController {
 
 
     @PutMapping("update")
-    public SchoolDTO updateSchool(@Valid @RequestBody SchoolDTO dto) {
+    public SchoolDTO updateSchool(@Valid @RequestBody SchoolDTO dto) throws  Exception {
         return SchoolDTO.convrToDTO(schoolService.updateSchool(dto.getSchoolId(),
                 dto.getSchoolName(), dto.getSchoolLocation()));
     }
