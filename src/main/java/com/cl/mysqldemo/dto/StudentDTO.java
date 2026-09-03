@@ -20,6 +20,7 @@ public class StudentDTO {
 
         @Positive
         private Long studentId;
+        private Long schoolId;
 
         @NotBlank(message = "student name cannot be blank")
         @Size(min = 3, max = 20, message = "student name  has to be between 2 and 20 characters ")
@@ -41,7 +42,7 @@ public class StudentDTO {
         private String gender;
 
 
-        public  static StudentDTO convrToDTO(Student entity){
+        public  static StudentDTO convertToDTO(Student entity){
             StudentDTO dto= StudentDTO.builder()
                     .studentId(entity.getId())
                     .studentName(entity.getName())
@@ -53,10 +54,10 @@ public class StudentDTO {
             return dto;
         }
 
-        public  static List<StudentDTO> convrToDTO(List<Student> entityList){
+        public  static List<StudentDTO> convertToDTO(List<Student> entityList){
             List<StudentDTO> dtos = new ArrayList<>();
             for (Student s: entityList){
-                dtos.add(convrToDTO(s));
+                dtos.add(convertToDTO(s));
             }
             return dtos;
         }
