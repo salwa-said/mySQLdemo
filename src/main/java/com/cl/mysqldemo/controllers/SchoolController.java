@@ -21,8 +21,8 @@ public class SchoolController {
     }
 
     @PostMapping("add")
-    public Long addSchool(@RequestParam String schoolName, @RequestParam String location) {
-        return schoolService.createSchool(schoolName, location);
+    public Long addSchool(@RequestBody SchoolDTO dto) {
+        return schoolService.createSchool(dto.getSchoolName(), dto.getSchoolLocation());
     }
 
     @GetMapping("getAll")
@@ -39,8 +39,8 @@ public class SchoolController {
 
 
     @PutMapping("update")
-    public SchoolDTO updateSchool(@RequestParam Long id, @RequestParam String name, @RequestParam String location) {
-        return SchoolDTO.convrToDTO(schoolService.updateSchool(id, name, location));
+    public SchoolDTO updateSchool(@RequestBody SchoolDTO dto) {
+        return SchoolDTO.convrToDTO(schoolService.updateSchool(dto.getSchoolId(),dto.getSchoolName(), dto.getSchoolLocation()));
     }
 
 
